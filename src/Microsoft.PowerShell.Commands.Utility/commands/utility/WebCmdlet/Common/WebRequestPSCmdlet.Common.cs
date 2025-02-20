@@ -734,7 +734,7 @@ namespace Microsoft.PowerShell.Commands
 
         /// <summary>
         /// Disposes the associated WebSession if it is not being used as part of a persistent session.
-        /// </summary> 
+        /// </summary>
         /// <param name="disposing">True when called from Dispose() and false when called from finalizer.</param>
         protected virtual void Dispose(bool disposing)
         {
@@ -752,7 +752,7 @@ namespace Microsoft.PowerShell.Commands
 
         /// <summary>
         /// Disposes the associated WebSession if it is not being used as part of a persistent session.
-        /// </summary> 
+        /// </summary>
         public void Dispose()
         {
             Dispose(disposing: true);
@@ -1172,7 +1172,7 @@ namespace Microsoft.PowerShell.Commands
             {
                 WebSession.ContentHeaders[HttpKnownHeaderNames.ContentType] = ContentType;
             }
-            else if (request.Method == HttpMethod.Post || request.Method == HttpMethod.Put)
+            else if (request.Method == HttpMethod.Post)
             {
                 // Win8:545310 Invoke-WebRequest does not properly set MIME type for POST
                 WebSession.ContentHeaders.TryGetValue(HttpKnownHeaderNames.ContentType, out string contentType);
@@ -1575,9 +1575,8 @@ namespace Microsoft.PowerShell.Commands
             ArgumentNullException.ThrowIfNull(content);
 
             Encoding encoding = null;
-            string contentType = WebSession.ContentHeaders[HttpKnownHeaderNames.ContentType];
 
-            if (contentType is not null)
+            if (WebSession.ContentHeaders.TryGetValue(HttpKnownHeaderNames.ContentType, out string contentType) && contentType is not null)
             {
                 // If Content-Type contains the encoding format (as CharSet), use this encoding format
                 // to encode the Body of the WebRequest sent to the server. Default Encoding format
@@ -1716,7 +1715,7 @@ namespace Microsoft.PowerShell.Commands
         /// <param name="fieldValue">The Field Value to use.</param>
         /// <param name="formData">The <see cref="MultipartFormDataContent"/> to update.</param>
         /// <param name="enumerate">If true, collection types in <paramref name="fieldValue"/> will be enumerated. If false, collections will be treated as single value.</param>
-        private void AddMultipartContent(object fieldName, object fieldValue, MultipartFormDataContent formData, bool enumerate)
+        private static void AddMultipartContent(object fieldName, object fieldValue, MultipartFormDataContent formData, bool enumerate)
         {
             ArgumentNullException.ThrowIfNull(formData);
 

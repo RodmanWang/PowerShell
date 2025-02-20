@@ -14,7 +14,7 @@ namespace Microsoft.PowerShell.Commands
     /// <summary>
     /// Null sink to absorb pipeline output.
     /// </summary>
-    [CmdletAttribute("Out", "Null", SupportsShouldProcess = false,
+    [Cmdlet("Out", "Null", SupportsShouldProcess = false,
         HelpUri = "https://go.microsoft.com/fwlink/?LinkID=2096792", RemotingCapability = RemotingCapability.None)]
     public class OutNullCommand : PSCmdlet
     {
@@ -49,7 +49,7 @@ namespace Microsoft.PowerShell.Commands
         /// invoked via API. This ensures that the objects pass through the formatting and output
         /// system, but can still make it to the API consumer.
         /// </summary>
-        [Parameter()]
+        [Parameter]
         public SwitchParameter Transcript { get; set; }
 
         /// <summary>
